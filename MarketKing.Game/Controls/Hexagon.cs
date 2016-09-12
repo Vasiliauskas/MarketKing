@@ -20,23 +20,26 @@ namespace MarketKing.Game
             _grid = new Grid();
             _color = color;
             _polygon.Points = new PointCollection(new List<Point>() {
-                new Point(0,GameConfig.StepSize),
+                new Point(0,GameConfig.StepSize*GameConfig.HeightRatio/2),
                 new Point(GameConfig.StepSize,0),
                 new Point(GameConfig.StepSize*2,0),
-                new Point(GameConfig.StepSize*3,GameConfig.StepSize),
-                new Point(GameConfig.StepSize*2,GameConfig.StepSize*2),
-                new Point(GameConfig.StepSize,GameConfig.StepSize*2),
-                new Point(0,GameConfig.StepSize)
+                new Point(GameConfig.StepSize*3,GameConfig.StepSize*GameConfig.HeightRatio/2),
+                new Point(GameConfig.StepSize*2,GameConfig.StepSize*GameConfig.HeightRatio),
+                new Point(GameConfig.StepSize,GameConfig.StepSize*GameConfig.HeightRatio),
+                new Point(0,GameConfig.StepSize*GameConfig.HeightRatio/2)
         });
             _polygon.Fill = new SolidColorBrush(_color);
             _polygon.Loaded += Hexagon_Loaded;
             _polygon.MouseEnter += Hexagon_MouseEnter;
             _polygon.MouseLeave += Hexagon_MouseLeave;
-            _polygon.Stroke = new SolidColorBrush(Colors.WhiteSmoke);
+            _polygon.Stroke = new SolidColorBrush(Colors.Black);
             _polygon.StrokeThickness = 1;
 
             _grid.Children.Add(_polygon);
 
+            //var dw = new DrawingVisual();
+            //var context = dw.RenderOpen();
+            //context.DrawText(new FormattedText())
             var tb = new TextBlock();
             tb.Text = "5";
             tb.FontSize = 16;

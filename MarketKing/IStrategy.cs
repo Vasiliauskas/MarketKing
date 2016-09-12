@@ -8,9 +8,9 @@ namespace MarketKing
         Transaction Turn(MyCell[] myBlocks);
     }
 
-    public class Hexagon
+    public class HexagonModel
     {
-        public Hexagon(Vector location)
+        public HexagonModel(Vector location)
         {
             CenterLocation = location;
         }
@@ -23,7 +23,7 @@ namespace MarketKing
         internal Cell BottomRight { get; private set; }
     }
 
-    public class Cell : Hexagon
+    public class Cell : HexagonModel
     {
         public int? OwnedById { get; set; }
         public int Resources { get; set; }

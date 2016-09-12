@@ -15,11 +15,13 @@ namespace MarketKing.Game
         private readonly Canvas _canvas;
         private readonly Dispatcher _uiDispatcher;
         private readonly ZoomScrollViewer _zoom;
+        private readonly Dictionary<Cell, Hexagon> _hexagonLookup;
         public Render(Canvas canvas, ZoomScrollViewer zoom, Dispatcher uiDispatcher)
         {
             _canvas = canvas;
             _uiDispatcher = uiDispatcher;
             _zoom = zoom;
+            _hexagonLookup = new Dictionary<Cell, Hexagon>();
         }
 
         public Task DrawBoardAsync(Board board)
@@ -28,8 +30,8 @@ namespace MarketKing.Game
             {
                 await _uiDispatcher.InvokeAsync(() =>
                  {
-                     _canvas.Height = board.Cells.Keys.Max(k => (k.Y + 2) * 60);
-                     _canvas.Width = board.Cells.Keys.Max(k => (k.X + 2) * 60);
+                     _canvas.Height = board.Cells.Keys.Max(k => (k.Y + 2) * 2 * GameConfig.StepSize);
+                     _canvas.Width = board.Cells.Keys.Max(k => (k.X + 2) * 2 * GameConfig.StepSize);
                  });
                 foreach (var cell in board.Cells)
                     await DrawHexagon(cell.Value, board.StartLocations.Contains(cell.Key));
@@ -51,9 +53,9 @@ namespace MarketKing.Game
                         hexColor = Colors.Red;
 
                     var hex = new Hexagon(hexColor);
-                    hex.Control.DataContext = cell;
+                    _hexagonLookup.Add(cell, hex);
                     _canvas.Children.Add(hex.Control);
-                    double y = (cell.CenterLocation.Y) * GameConfig.StepSize * 2 - (isOdd ? GameConfig.StepSize : 0);
+                    double y = (cell.CenterLocation.Y) * GameConfig.StepSize * GameConfig.HeightRatio - (isOdd ? GameConfig.StepSize * GameConfig.HeightRatio / 2 : 0);
                     double x = (cell.CenterLocation.X) * GameConfig.StepSize * 2;
                     Canvas.SetTop(hex.Control, y);
                     Canvas.SetLeft(hex.Control, x);

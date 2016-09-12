@@ -35,7 +35,8 @@ namespace MarketKing.Game
             for (int i = 0; i < areaCount - (axisCount * axisCount); i++, k++) // fill starting points for remainder
                 _startLocations[k] = new Vector(Gap * axisCount, Gap * i);
 
-            for (int i = -1 * Gap; i < (axisCount) * Gap; i++) // create cells
+            int axisWithRemainderCount = axisCount + (areaCount == axisCount * axisCount ? 0 : 1);
+            for (int i = -1 * Gap; i < axisWithRemainderCount * Gap; i++) // create cells
                 for (int j = -1 * Gap; j < (axisCount) * Gap; j++)
                     _cells.Add(new Cell(new Vector(i, j), null, 0));
         }
