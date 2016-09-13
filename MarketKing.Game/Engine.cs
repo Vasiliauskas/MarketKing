@@ -1,8 +1,8 @@
-﻿using System;
-namespace MarketKing.Game
+﻿namespace MarketKing.Game
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using System.Linq;
 
     public class Engine
     {
@@ -21,7 +21,6 @@ namespace MarketKing.Game
                 _board.Cells[_board.StartLocations[i]].OwnedById = i;
                 _board.Cells[_board.StartLocations[i]].Resources = GameConfig.StartingResource;
             }
-
         }
 
         public async Task RunStartSequence()
@@ -30,9 +29,38 @@ namespace MarketKing.Game
             await RunGame();
         }
 
-        private async Task RunGame()
+        private Task RunGame()
         {
-
+            return Task.Run(() =>
+            {
+                while (CheckWinner())
+                {
+                    foreach (var player in _players)
+                    {
+                        var playerCells = _board.Cells.Values.Where(c => c.OwnedById.HasValue && c.OwnedById.Value.Equals(player.Key.Id))
+                            .Select(c => new MyCell(c));
+                        var transaction = player.Value.Turn(playerCells.ToArray());
+                        var targetCell = transaction.TargetBlock;
+                        var sourceCell = transaction.MyBlock;
+                        if (sourceCell != null && targetCell != null)
+                        {
+                            var resourceToTransfer =
+                                sourceCell.Resources >= transaction.AmmountToTransfer ?
+                                transaction.AmmountToTransfer : sourceCell.Resources;
+                            sourceCell.Resources -= resourceToTransfer;
+                            targetCell.Resources += resourceToTransfer;
+                            if (targetCell.Resources > 99)
+                                targetCell.Resources = 99;
+                        }
+                    }
+                }
+            });
         }
+
+        private bool CheckWinner() =>
+            _board.Cells.Values
+            .Where(c => c.OwnedById.HasValue)
+            .Select(c => c.OwnedById.Value).Distinct()
+            .Count() <= 1;
     }
 }

@@ -42,10 +42,10 @@ namespace MarketKing
         {
         }
 
-        //internal MyCell(Cell block)
-        //    : base(block.Id, block.OwnedById, block.Resources, block.Top, block.Bottom, block.Left, block.Right)
-        //{
-        //}
+        public MyCell(Cell block)
+            : base(block.CenterLocation,block.OwnedById, block.Resources)
+        {
+        }
 
         public new Cell Top { get { return Top; } }
         public new Cell Bottom { get { return Bottom; } }

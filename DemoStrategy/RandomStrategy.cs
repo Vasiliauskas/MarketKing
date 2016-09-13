@@ -19,7 +19,7 @@ namespace DemoStrategy
 
         public Transaction Turn(MyCell[] myBlocks)
         {
-            throw new NotImplementedException();
+            return new Transaction(myBlocks.First(), myBlocks.Last(), 99);
         }
     }
 }

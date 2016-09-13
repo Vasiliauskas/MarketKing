@@ -59,7 +59,7 @@ namespace MarketKing.Game
                     double x = (cell.CenterLocation.X) * GameConfig.StepSize * 2;
                     Canvas.SetTop(hex.Control, y);
                     Canvas.SetLeft(hex.Control, x);
-                    while (x + GameConfig.StepSize * 3 > (_zoom.ActualWidth / _zoom.Zoom))
+                    while (x + GameConfig.StepSize > (_zoom.ActualWidth / _zoom.Zoom) || y + GameConfig.StepSize > (_zoom.ActualHeight / _zoom.Zoom))
                     {
                         _zoom.Zoom -= 0.01;
                         Thread.Sleep(1);
