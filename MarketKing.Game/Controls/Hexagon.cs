@@ -40,12 +40,12 @@ namespace MarketKing.Game
             //var dw = new DrawingVisual();
             //var context = dw.RenderOpen();
             //context.DrawText(new FormattedText())
-            var tb = new TextBlock();
-            tb.Text = "5";
-            tb.FontSize = 16;
-            tb.HorizontalAlignment = HorizontalAlignment.Center;
-            tb.VerticalAlignment = VerticalAlignment.Center;
-            _grid.Children.Add(tb);
+            //var tb = new TextBlock();
+            //tb.Text = "5";
+            //tb.FontSize = 16;
+            //tb.HorizontalAlignment = HorizontalAlignment.Center;
+            //tb.VerticalAlignment = VerticalAlignment.Center;
+            //_grid.Children.Add(tb);
         }
 
         public FrameworkElement Control
