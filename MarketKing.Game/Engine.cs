@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Linq;
+    using System.Windows.Media;
+    using System.Threading;
 
     public class Engine
     {
@@ -17,50 +19,113 @@
 
             for (int i = 0; i < strategies.Length; i++)
             {
-                _players.Add(new Player(strategies[i], i), strategies[i]);
-                _board.Cells[_board.StartLocations[i]].OwnedById = i;
-                _board.Cells[_board.StartLocations[i]].Resources = GameConfig.StartingResource;
+                var uniqueColor = (Color)ColorConverter.ConvertFromString(UniqueColorProvider.GetUniqueColor(i));
+                var player = new Player(strategies[i], i, uniqueColor);
+                _players.Add(player, strategies[i]);
             }
         }
 
         public async Task RunStartSequence()
         {
             await Task.Run(async () => await _render.DrawBoardAsync(_board));
+            SetupStartLocations();
             await RunGame();
+        }
+
+        private void SetupStartLocations()
+        {
+            int i = 0;
+            foreach (var player in _players.Keys)
+            {
+                AssignCellToPlayer(_board.Cells[_board.StartLocations[i]], player);
+                SetCellResource(_board.Cells[_board.StartLocations[i]], GameConfig.StartingResource);
+                i++;
+            }
         }
 
         private Task RunGame()
         {
             return Task.Run(() =>
             {
-                while (CheckWinner())
+                while (!DoWeHaveAWinner())
                 {
-                    foreach (var player in _players)
-                    {
-                        var playerCells = _board.Cells.Values.Where(c => c.OwnedById.HasValue && c.OwnedById.Value.Equals(player.Key.Id))
-                            .Select(c => new MyCell(c));
-                        var transaction = player.Value.Turn(playerCells.ToArray());
-                        var targetCell = transaction.TargetBlock;
-                        var sourceCell = transaction.MyBlock;
-                        if (sourceCell != null && targetCell != null)
-                        {
-                            var resourceToTransfer =
-                                sourceCell.Resources >= transaction.AmmountToTransfer ?
-                                transaction.AmmountToTransfer : sourceCell.Resources;
-                            sourceCell.Resources -= resourceToTransfer;
-                            targetCell.Resources += resourceToTransfer;
-                            if (targetCell.Resources > 99)
-                                targetCell.Resources = 99;
-                        }
-                    }
+                    TakeTurns();
+                    IncrementResources();
+                    Thread.Sleep(100);
                 }
             });
         }
 
-        private bool CheckWinner() =>
+        private void TakeTurns()
+        {
+            foreach (var player in _players.ToList())
+            {
+                var playerCells = _board.Cells.Values.Where(c => c.OwnedById.HasValue && c.OwnedById.Value.Equals(player.Key.Id))
+                    .Select(c => ToMyCell(c));
+                if (!playerCells.Any())
+                {
+                    _players.Remove(player.Key);
+                    continue;
+                }
+                // maybe async and then timeout if no response after 500 ms
+                var transaction = player.Value.Turn(playerCells.ToArray());
+
+                var targetCell = transaction.TargetBlock != null ? _board.Cells[transaction.TargetBlock.CenterLocation] : null;
+                var sourceCell = transaction.MyBlock != null ? _board.Cells[transaction.MyBlock.CenterLocation] : null;
+                if (sourceCell != null && targetCell != null)
+                {
+                    var resourceToTransfer =
+                        sourceCell.Resources >= transaction.AmmountToTransfer ?
+                        transaction.AmmountToTransfer : sourceCell.Resources;
+
+                    SetCellResource(sourceCell, sourceCell.Resources -= resourceToTransfer);
+
+                    if (resourceToTransfer >= targetCell.Resources
+                        && ((targetCell.OwnedById.HasValue
+                        && targetCell.OwnedById.Value != player.Key.Id) || !targetCell.OwnedById.HasValue))
+                    {
+                        AssignCellToPlayer(targetCell, player.Key);
+                        SetCellResource(targetCell, resourceToTransfer - targetCell.Resources);
+                    }
+                    else
+                    {
+                        SetCellResource(targetCell, targetCell.Resources += resourceToTransfer);
+                    }
+                }
+            }
+        }
+
+        private void IncrementResources()
+        {
+            var ownedCells = _board.Cells.Values.Where(v => v.OwnedById.HasValue);
+            foreach (var cell in ownedCells)
+            {
+                var resources = cell.Resources <= 99 ? cell.Resources + GameConfig.TurnGrowth : cell.Resources;
+                SetCellResource(cell, resources);
+            }
+        }
+
+        private bool DoWeHaveAWinner() =>
             _board.Cells.Values
             .Where(c => c.OwnedById.HasValue)
             .Select(c => c.OwnedById.Value).Distinct()
             .Count() <= 1;
+
+        private void AssignCellToPlayer(Cell cell, Player player)
+        {
+            cell.OwnedById = player.Id;
+            _render.SetColor(cell, player.Color);
+        }
+
+        private void SetCellResource(Cell cell, int resource)
+        {
+            cell.Resources = resource;
+            _render.ChangeResourceValue(cell);
+        }
+
+        private MyCell ToMyCell(Cell c)
+        {
+            return new MyCell(c);
+        }
     }
 }

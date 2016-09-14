@@ -38,6 +38,9 @@ namespace MarketKing.Game
             });
         }
 
+        public void SetColor(Cell cell, Color color) => _hexagonLookup[cell].SetColor(color);
+        public void ChangeResourceValue(Cell cell) => _hexagonLookup[cell].SetValue(cell.Resources);
+
         private Task DrawHexagon(Cell cell, bool isStartLocation)
         {
             TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
@@ -52,7 +55,7 @@ namespace MarketKing.Game
                     if (isStartLocation)
                         hexColor = Colors.Red;
 
-                    var hex = new Hexagon(hexColor);
+                    var hex = new Hexagon(hexColor, _uiDispatcher);
                     _hexagonLookup.Add(cell, hex);
                     _canvas.Children.Add(hex.Control);
                     double y = (cell.CenterLocation.Y) * GameConfig.StepSize * GameConfig.HeightRatio - (isOdd ? GameConfig.StepSize * GameConfig.HeightRatio / 2 : 0);

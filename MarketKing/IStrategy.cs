@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace MarketKing
 {
@@ -15,12 +16,12 @@ namespace MarketKing
             CenterLocation = location;
         }
         public Vector CenterLocation { get; private set; }
-        internal Cell TopLeft { get; private set; }
-        internal Cell Top { get; private set; }
-        internal Cell TopRight { get; private set; }
-        internal Cell BottomLeft { get; private set; }
-        internal Cell Bottom { get; private set; }
-        internal Cell BottomRight { get; private set; }
+        public Cell TopLeft { get; set; }
+        public Cell Top { get; set; }
+        public Cell TopRight { get; set; }
+        public Cell BottomLeft { get; set; }
+        public Cell Bottom { get; set; }
+        public Cell BottomRight { get; set; }
     }
 
     public class Cell : HexagonModel
@@ -34,6 +35,19 @@ namespace MarketKing
             OwnedById = ownedById;
             Resources = resources;
         }
+
+        //[Obsolete("Member will be always null")]
+        //public new Cell Top { get { return null; } }
+        //[Obsolete("Member will be always null")]
+        //public new Cell Bottom { get { return null; } }
+        //[Obsolete("Member will be always null")]
+        //public new Cell TopLeft { get { return null; } }
+        //[Obsolete("Member will be always null")]
+        //public new Cell TopRight { get { return null; } }
+        //[Obsolete("Member will be always null")]
+        //public new Cell BottomLeft { get { return null; } }
+        //[Obsolete("Member will be always null")]
+        //public new Cell BottomRight { get { return null; } }
     }
 
     public class MyCell : Cell // used for ensuring method contract for securely supplying resources to move from a valid field
@@ -43,16 +57,15 @@ namespace MarketKing
         }
 
         public MyCell(Cell block)
-            : base(block.CenterLocation,block.OwnedById, block.Resources)
+            : base(block.CenterLocation, block.OwnedById, block.Resources)
         {
+            TopLeft = block.TopLeft;
+            Top = block.Top;
+            TopRight = block.TopRight;
+            BottomRight = block.BottomRight;
+            Bottom = block.Bottom;
+            BottomLeft = block.BottomLeft;
         }
-
-        public new Cell Top { get { return Top; } }
-        public new Cell Bottom { get { return Bottom; } }
-        public new Cell TopLeft { get { return TopLeft; } }
-        public new Cell TopRight { get { return TopRight; } }
-        public new Cell BottomLeft { get { return BottomLeft; } }
-        public new Cell BottomRight { get { return BottomRight; } }
     }
 
     public struct Transaction

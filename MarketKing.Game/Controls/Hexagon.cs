@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace MarketKing.Game
 {
@@ -14,18 +15,21 @@ namespace MarketKing.Game
         private readonly Color _color;
         private Polygon _polygon;
         private Grid _grid;
-        public Hexagon(Color color)
+        private TextBlock _text;
+        private Dispatcher _uiDispatcher;
+        public Hexagon(Color color, Dispatcher uiDispatcher)
         {
+            _uiDispatcher = uiDispatcher;
             _polygon = new Polygon();
             _grid = new Grid();
             _color = color;
             _polygon.Points = new PointCollection(new List<Point>() {
                 new Point(0,GameConfig.StepSize*GameConfig.HeightRatio/2),
-                new Point(GameConfig.StepSize,0),
-                new Point(GameConfig.StepSize*2,0),
+                new Point(GameConfig.StepSize-5,0),
+                new Point(GameConfig.StepSize*2+5,0),
                 new Point(GameConfig.StepSize*3,GameConfig.StepSize*GameConfig.HeightRatio/2),
-                new Point(GameConfig.StepSize*2,GameConfig.StepSize*GameConfig.HeightRatio),
-                new Point(GameConfig.StepSize,GameConfig.StepSize*GameConfig.HeightRatio),
+                new Point(GameConfig.StepSize*2+5,GameConfig.StepSize*GameConfig.HeightRatio),
+                new Point(GameConfig.StepSize-5,GameConfig.StepSize*GameConfig.HeightRatio),
                 new Point(0,GameConfig.StepSize*GameConfig.HeightRatio/2)
         });
             _polygon.Fill = new SolidColorBrush(_color);
@@ -40,12 +44,12 @@ namespace MarketKing.Game
             //var dw = new DrawingVisual();
             //var context = dw.RenderOpen();
             //context.DrawText(new FormattedText())
-            //var tb = new TextBlock();
-            //tb.Text = "5";
-            //tb.FontSize = 16;
-            //tb.HorizontalAlignment = HorizontalAlignment.Center;
-            //tb.VerticalAlignment = VerticalAlignment.Center;
-            //_grid.Children.Add(tb);
+            _text = new TextBlock();
+            _text.Text = "0";
+            _text.FontSize = 16;
+            _text.HorizontalAlignment = HorizontalAlignment.Center;
+            _text.VerticalAlignment = VerticalAlignment.Center;
+            _grid.Children.Add(_text);
         }
 
         public FrameworkElement Control
@@ -53,15 +57,11 @@ namespace MarketKing.Game
             get { return _grid; }
         }
 
-        private void Hexagon_MouseLeave(object sender, MouseEventArgs e)
-        {
-            AnimateColor(Colors.Blue, _color, 300);
-        }
+        public void SetColor(Color color) => _uiDispatcher.InvokeAsync(() => _polygon.Fill = new SolidColorBrush(color));
+        public void SetValue(int value) => _uiDispatcher.InvokeAsync(() => _text.Text = value.ToString());
 
-        private void Hexagon_MouseEnter(object sender, MouseEventArgs e)
-        {
-            AnimateColor(_color, Colors.Blue, 100);
-        }
+        private void Hexagon_MouseLeave(object sender, MouseEventArgs e) => AnimateColor(Colors.Blue, _color, 300);
+        private void Hexagon_MouseEnter(object sender, MouseEventArgs e) => AnimateColor(_color, Colors.Blue, 100);
 
         private void Hexagon_Loaded(object sender, RoutedEventArgs e)
         {
