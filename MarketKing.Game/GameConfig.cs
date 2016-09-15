@@ -7,5 +7,6 @@
         public const int StepSize = 30;
         public const int ThrottleRenderMiliseconds = 0;
         public const double HeightRatio = 2.4;
+        public const int FrameRate = 60;
     }
 }
