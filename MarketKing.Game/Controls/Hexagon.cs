@@ -12,7 +12,7 @@ namespace MarketKing.Game
 {
     public class Hexagon
     {
-        private Color _color;
+        private readonly Color _color;
         private Polygon _polygon;
         private Grid _grid;
         private TextBlock _text;
@@ -21,7 +21,7 @@ namespace MarketKing.Game
         {
             _uiDispatcher = uiDispatcher;
             _polygon = new Polygon();
-            _grid = new Grid() { Width = GameConfig.StepSize * 3, Height = GameConfig.StepSize * GameConfig.HeightRatio };
+            _grid = new Grid();
             _color = color;
             _polygon.Points = new PointCollection(new List<Point>() {
                 new Point(0,GameConfig.StepSize*GameConfig.HeightRatio/2),
@@ -34,8 +34,8 @@ namespace MarketKing.Game
         });
             _polygon.Fill = new SolidColorBrush(_color);
             _polygon.Loaded += Hexagon_Loaded;
-            //_polygon.MouseEnter += Hexagon_MouseEnter;
-            //_polygon.MouseLeave += Hexagon_MouseLeave;
+            _polygon.MouseEnter += Hexagon_MouseEnter;
+            _polygon.MouseLeave += Hexagon_MouseLeave;
             _polygon.Stroke = new SolidColorBrush(Colors.Black);
             _polygon.StrokeThickness = 1;
 
@@ -57,21 +57,21 @@ namespace MarketKing.Game
             get { return _grid; }
         }
 
-        public void SetColor(Color color) => _uiDispatcher.InvokeAsync(() => AnimateColorTo(color, 100));
+        public void SetColor(Color color) => _uiDispatcher.InvokeAsync(() => _polygon.Fill = new SolidColorBrush(color));
         public void SetValue(int value) => _uiDispatcher.InvokeAsync(() => _text.Text = value.ToString());
 
-        //private void Hexagon_MouseLeave(object sender, MouseEventArgs e) => AnimateColorTo(Colors.Blue, _color, 300);
-        //private void Hexagon_MouseEnter(object sender, MouseEventArgs e) => AnimateColor(_color, Colors.Blue, 100);
+        private void Hexagon_MouseLeave(object sender, MouseEventArgs e) => AnimateColor(Colors.Blue, _color, 300);
+        private void Hexagon_MouseEnter(object sender, MouseEventArgs e) => AnimateColor(_color, Colors.Blue, 100);
 
         private void Hexagon_Loaded(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
         }
 
-        private void AnimateColorTo(Color toColor, int miliseconds)
+        private void AnimateColor(Color fromColor, Color toColor, int miliseconds)
         {
             ColorAnimation colorChangeAnimation = new ColorAnimation();
-            colorChangeAnimation.From = _color;
+            colorChangeAnimation.From = fromColor;
             colorChangeAnimation.To = toColor;
             colorChangeAnimation.Duration = TimeSpan.FromMilliseconds(miliseconds);
 
@@ -81,8 +81,6 @@ namespace MarketKing.Game
             Storyboard.SetTargetProperty(colorChangeAnimation, colorTargetPath);
             CellBackgroundChangeStory.Children.Add(colorChangeAnimation);
             CellBackgroundChangeStory.Begin();
-
-            _color = toColor;
         }
     }
 }

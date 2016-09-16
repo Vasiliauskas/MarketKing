@@ -51,7 +51,7 @@
                 {
                     TakeTurns();
                     IncrementResources();
-                    Thread.Sleep(50);
+                    Thread.Sleep(100);
                 }
             });
         }

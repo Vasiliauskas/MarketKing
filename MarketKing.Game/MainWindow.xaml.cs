@@ -24,7 +24,7 @@ namespace MarketKing.Game
         public MainWindow()
         {
             InitializeComponent();
-            var engine = new Engine(GetStrategies(100), new Render(canvas, zoom, Dispatcher));
+            var engine = new Engine(GetStrategies(50), new Render(canvas, zoom, Dispatcher));
             engine.RunStartSequence();
         }
 
