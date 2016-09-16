@@ -44,12 +44,12 @@ namespace MarketKing.Game
             var x = cellLocation.X;
             var y = cellLocation.Y;
             var isEvenColumn = x % 2 == 0;
-            cell.TopLeft = TryGetCell(new Vector(x - 1, isEvenColumn ? y : y - 1));
+            cell.TopLeft = TryGetCell(new Vector(x - 1, !isEvenColumn ? y : y - 1));
             cell.Top = TryGetCell(new Vector(x, y - 1));
-            cell.TopRight = TryGetCell(new Vector(x + 1, isEvenColumn ? y : y - 1));
-            cell.BottomRight = TryGetCell(new Vector(x + 1, isEvenColumn ? y + 1 : y));
+            cell.TopRight = TryGetCell(new Vector(x + 1, !isEvenColumn ? y : y - 1));
+            cell.BottomRight = TryGetCell(new Vector(x + 1, !isEvenColumn ? y + 1 : y));
             cell.Bottom = TryGetCell(new Vector(x, y + 1));
-            cell.BottomLeft = TryGetCell(new Vector(x - 1, isEvenColumn ? y + 1 : y));
+            cell.BottomLeft = TryGetCell(new Vector(x - 1, !isEvenColumn ? y + 1 : y));
 
             if (cell.TopLeft != null)
                 cell.TopLeft.BottomRight = cell;

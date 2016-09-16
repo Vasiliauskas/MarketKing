@@ -12,14 +12,18 @@ namespace MarketKing.Game
 {
     public class Hexagon
     {
-        private readonly Color _color;
+        private Color _color;
         private Polygon _polygon;
         private Grid _grid;
         private TextBlock _text;
         private Dispatcher _uiDispatcher;
-        public Hexagon(Color color, Dispatcher uiDispatcher)
+        private Cell _cell;
+        private Dictionary<Cell, Hexagon> _lookup;
+        public Hexagon(Color color, Dispatcher uiDispatcher, Cell cell, Dictionary<Cell, Hexagon> lookup)
         {
             _uiDispatcher = uiDispatcher;
+            _lookup = lookup;
+            _cell = cell;
             _polygon = new Polygon();
             _grid = new Grid();
             _color = color;
@@ -34,16 +38,14 @@ namespace MarketKing.Game
         });
             _polygon.Fill = new SolidColorBrush(_color);
             _polygon.Loaded += Hexagon_Loaded;
-            _polygon.MouseEnter += Hexagon_MouseEnter;
-            _polygon.MouseLeave += Hexagon_MouseLeave;
+            // used for debug mode only
+            //_polygon.MouseEnter += Hexagon_MouseEnter;
+            //_polygon.MouseLeave += Hexagon_MouseLeave;
             _polygon.Stroke = new SolidColorBrush(Colors.Black);
             _polygon.StrokeThickness = 1;
 
             _grid.Children.Add(_polygon);
 
-            //var dw = new DrawingVisual();
-            //var context = dw.RenderOpen();
-            //context.DrawText(new FormattedText())
             _text = new TextBlock();
             _text.Text = "0";
             _text.FontSize = 16;
@@ -57,21 +59,51 @@ namespace MarketKing.Game
             get { return _grid; }
         }
 
-        public void SetColor(Color color) => _uiDispatcher.InvokeAsync(() => _polygon.Fill = new SolidColorBrush(color));
+        public void SetColor(Color color) => _uiDispatcher.InvokeAsync(() => AnimateColor(color, 200));
         public void SetValue(int value) => _uiDispatcher.InvokeAsync(() => _text.Text = value.ToString());
 
-        private void Hexagon_MouseLeave(object sender, MouseEventArgs e) => AnimateColor(Colors.Blue, _color, 300);
-        private void Hexagon_MouseEnter(object sender, MouseEventArgs e) => AnimateColor(_color, Colors.Blue, 100);
+        private void Hexagon_MouseLeave(object sender, MouseEventArgs e)
+        {
+            SetColor(Colors.White);
+            if (_cell.TopLeft != null)
+                _lookup[_cell.TopLeft]?.SetColor(Colors.White);
+            if (_cell.Top != null)
+                _lookup[_cell.Top]?.SetColor(Colors.White);
+            if (_cell.TopRight != null)
+                _lookup[_cell.TopRight]?.SetColor(Colors.White);
+            if (_cell.BottomRight != null)
+                _lookup[_cell.BottomRight]?.SetColor(Colors.White);
+            if (_cell.Bottom != null)
+                _lookup[_cell.Bottom]?.SetColor(Colors.White);
+            if (_cell.BottomLeft != null)
+                _lookup[_cell.BottomLeft]?.SetColor(Colors.White);
+        }
+        private void Hexagon_MouseEnter(object sender, MouseEventArgs e)
+        {
+            SetColor(Colors.Red);
+            if (_cell.TopLeft != null)
+                _lookup[_cell.TopLeft]?.SetColor(Colors.Blue);
+            if (_cell.Top != null)
+                _lookup[_cell.Top]?.SetColor(Colors.Blue);
+            if (_cell.TopRight != null)
+                _lookup[_cell.TopRight]?.SetColor(Colors.Blue);
+            if (_cell.BottomRight != null)
+                _lookup[_cell.BottomRight]?.SetColor(Colors.Blue);
+            if (_cell.Bottom != null)
+                _lookup[_cell.Bottom]?.SetColor(Colors.Blue);
+            if (_cell.BottomLeft != null)
+                _lookup[_cell.BottomLeft]?.SetColor(Colors.Blue);
+        }
 
         private void Hexagon_Loaded(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
         }
 
-        private void AnimateColor(Color fromColor, Color toColor, int miliseconds)
+        private void AnimateColor(Color toColor, int miliseconds)
         {
             ColorAnimation colorChangeAnimation = new ColorAnimation();
-            colorChangeAnimation.From = fromColor;
+            colorChangeAnimation.From = _color;
             colorChangeAnimation.To = toColor;
             colorChangeAnimation.Duration = TimeSpan.FromMilliseconds(miliseconds);
 
@@ -81,6 +113,7 @@ namespace MarketKing.Game
             Storyboard.SetTargetProperty(colorChangeAnimation, colorTargetPath);
             CellBackgroundChangeStory.Children.Add(colorChangeAnimation);
             CellBackgroundChangeStory.Begin();
+            _color = toColor;
         }
     }
 }

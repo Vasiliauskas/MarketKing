@@ -21,11 +21,14 @@ namespace MarketKing.Game
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly Engine _engine;
+        private readonly Render _render;
         public MainWindow()
         {
             InitializeComponent();
-            var engine = new Engine(GetStrategies(50), new Render(canvas, zoom, Dispatcher));
-            engine.RunStartSequence();
+            _render = new Render(canvas, zoom, Dispatcher);
+            _engine = new Engine(GetStrategies(4), _render);
+            _engine.RunStartSequence();
         }
 
         private IStrategy[] GetStrategies(int count)

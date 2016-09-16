@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -55,7 +56,7 @@ namespace MarketKing.Game
                     if (isStartLocation)
                         hexColor = Colors.Red;
 
-                    var hex = new Hexagon(hexColor, _uiDispatcher);
+                    var hex = new Hexagon(hexColor, _uiDispatcher, cell, _hexagonLookup);
                     _hexagonLookup.Add(cell, hex);
                     _canvas.Children.Add(hex.Control);
                     double y = (cell.CenterLocation.Y) * GameConfig.StepSize * GameConfig.HeightRatio - (isOdd ? GameConfig.StepSize * GameConfig.HeightRatio / 2 : 0);
