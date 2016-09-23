@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace MarketKing
@@ -16,12 +17,110 @@ namespace MarketKing
             CenterLocation = location;
         }
         public Vector CenterLocation { get; private set; }
-        public Cell TopLeft { get; set; }
-        public Cell Top { get; set; }
-        public Cell TopRight { get; set; }
-        public Cell BottomLeft { get; set; }
-        public Cell Bottom { get; set; }
-        public Cell BottomRight { get; set; }
+
+        private Cell _TopLeft;
+        public Cell TopLeft
+        {
+            get
+            {
+                return _TopLeft;
+            }
+            set
+            {
+                if (_TopLeft != value)
+                {
+                    _TopLeft = value;
+                    Neighbours.Add(_TopLeft);
+                }
+            }
+        }
+
+        private Cell _Top;
+        public Cell Top
+        {
+            get
+            {
+                return _Top;
+            }
+            set
+            {
+                if (_Top != value)
+                {
+                    _Top = value;
+                    Neighbours.Add(_Top);
+                }
+            }
+        }
+
+        private Cell _TopRight;
+        public Cell TopRight
+        {
+            get
+            {
+                return _TopRight;
+            }
+            set
+            {
+                if (_TopRight != value)
+                {
+                    _TopRight = value;
+                    Neighbours.Add(_TopRight);
+                }
+            }
+        }
+
+        private Cell _BottomRight;
+        public Cell BottomRight
+        {
+            get
+            {
+                return _BottomRight;
+            }
+            set
+            {
+                if (_BottomRight != value)
+                {
+                    _BottomRight = value;
+                    Neighbours.Add(_BottomRight);
+                }
+            }
+        }
+
+        private Cell _Bottom;
+        public Cell Bottom
+        {
+            get
+            {
+                return _Bottom;
+            }
+            set
+            {
+                if (_Bottom != value)
+                {
+                    _Bottom = value;
+                    Neighbours.Add(_Bottom);
+                }
+            }
+        }
+
+        private Cell _BottomLeft;
+        public Cell BottomLeft
+        {
+            get
+            {
+                return _BottomLeft;
+            }
+            set
+            {
+                if (_BottomLeft != value)
+                {
+                    _BottomLeft = value;
+                    Neighbours.Add(_BottomLeft);
+                }
+            }
+        }
+
+        public List<Cell> Neighbours { get; } = new List<Cell>();
     }
 
     public class Cell : HexagonModel
@@ -35,19 +134,6 @@ namespace MarketKing
             OwnedById = ownedById;
             Resources = resources;
         }
-
-        //[Obsolete("Member will be always null")]
-        //public new Cell Top { get { return null; } }
-        //[Obsolete("Member will be always null")]
-        //public new Cell Bottom { get { return null; } }
-        //[Obsolete("Member will be always null")]
-        //public new Cell TopLeft { get { return null; } }
-        //[Obsolete("Member will be always null")]
-        //public new Cell TopRight { get { return null; } }
-        //[Obsolete("Member will be always null")]
-        //public new Cell BottomLeft { get { return null; } }
-        //[Obsolete("Member will be always null")]
-        //public new Cell BottomRight { get { return null; } }
     }
 
     public class MyCell : Cell // used for ensuring method contract for securely supplying resources to move from a valid field

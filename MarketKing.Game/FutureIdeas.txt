@@ -1,0 +1,4 @@
+﻿-All cells observable
+-Ordered player list by cell count and power
+-Fluent syntax for logical operations like smallest neighbour
+-Flip animation
