@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoStrategy", "DemoStrateg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketKing.Game", "MarketKing.Game\MarketKing.Game.csproj", "{1D15AA9B-894B-4FEF-8E43-3FD92BB5D4AF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A4790AEF-47E7-42C1-8D69-3D5F5BA0E4A9}"
+	ProjectSection(SolutionItems) = preProject
+		main.png = main.png
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
