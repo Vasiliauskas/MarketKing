@@ -22,7 +22,8 @@ namespace MarketKing.Game
             get { return _startLocations; }
         }
 
-        public Board(int areaCount)
+        // TODO: should be reworked to be hexagon shaped board instead of rectangle
+        public Board(int areaCount)  
         {
             _cells = new CellCollection();
             _startLocations = new Vector[areaCount];
