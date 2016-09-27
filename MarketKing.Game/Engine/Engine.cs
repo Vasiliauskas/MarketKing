@@ -5,23 +5,27 @@
     using System.Linq;
     using System.Windows.Media;
     using System.Threading;
+    using DataModels;
 
     public class Engine
     {
         private readonly Dictionary<Player, IStrategy> _players;
         private readonly Render _render;
         private readonly Board _board;
+        private readonly Statistics _playerStats;
         public Engine(IStrategy[] strategies, Render render)
         {
             _players = new Dictionary<Player, IStrategy>();
             _render = render;
             _board = new Board(strategies.Length);
+            _playerStats = new Statistics();
 
             for (int i = 0; i < strategies.Length; i++)
             {
                 var uniqueColor = (Color)ColorConverter.ConvertFromString(UniqueColorProvider.GetUniqueColor(i));
                 var player = new Player(strategies[i], i, uniqueColor);
                 _players.Add(player, strategies[i]);
+                _playerStats.Add(new PlayerStatistics(i) { Hexagons = 1, Resources = GameConfig.StartingResource });
             }
         }
 
@@ -65,8 +69,11 @@
                 if (!playerCells.Any())
                 {
                     _players.Remove(player.Key);
+                    _playerStats.RemoveAt(player.Key.Id);
                     continue;
                 }
+                UpdateStats(player.Key, playerCells);
+
                 // maybe async and then timeout if no response after 500 ms
                 var transaction = player.Value.Turn(playerCells.ToArray());
 
@@ -93,6 +100,12 @@
                     }
                 }
             }
+        }
+
+        private void UpdateStats(Player player, IEnumerable<MyCell> cells)
+        {
+            _playerStats[player.Id].Hexagons = cells.Count();
+            _playerStats[player.Id].Resources = cells.Sum(c => c.Resources);
         }
 
         private void IncrementResources()

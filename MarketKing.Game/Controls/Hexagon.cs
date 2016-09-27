@@ -47,7 +47,6 @@ namespace MarketKing.Game
             _grid.Children.Add(_polygon);
 
             _text = new TextBlock();
-            _text.Text = "0";
             _text.FontSize = 16;
             _text.HorizontalAlignment = HorizontalAlignment.Center;
             _text.VerticalAlignment = VerticalAlignment.Center;
@@ -60,7 +59,7 @@ namespace MarketKing.Game
         }
 
         public void SetColor(Color color) => _uiDispatcher.InvokeAsync(() => AnimateColor(color, 200));
-        public void SetValue(int value) => _uiDispatcher.InvokeAsync(() => _text.Text = value.ToString());
+        public void SetValue(int value) => _uiDispatcher.InvokeAsync(() => _text.Text = value != 0 ? value.ToString() : string.Empty);
 
         private void Hexagon_MouseLeave(object sender, MouseEventArgs e)
         {

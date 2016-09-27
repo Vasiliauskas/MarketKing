@@ -1,4 +1,19 @@
-﻿-All cells observable
--Ordered player list by cell count and power
--Fluent syntax for logical operations like smallest neighbour
+﻿-----------Gamification
+-Ordered player list by cell count and power -VVAS
+
+-----------Game engine
+-Improve strategy consumption from player perspective
+-Fix how much time a player can take per turn to avoid laggy players
+-Performance improvements for large player count
+-Neighbor representation in model
+
+-----------GUI
+-New UI
 -Flip animation
+-Hexagon shaped board
+
+-----------Cross Language
+-Code strategy in browser with intellisense support
+-C#
+-JS
+-Java

@@ -38,7 +38,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <local:ZoomScrollViewer x:Name="zoom" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" MaxZoom="1" MinZoom="0.2">
-        <Canvas x:Name="canvas" Margin="100"/>
+    <local:ZoomScrollViewer x:Name="zoom" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" MaxZoom="1" MinZoom="0.2" Padding="50">
+        <Canvas x:Name="canvas"/>
     </local:ZoomScrollViewer>
 </Window>

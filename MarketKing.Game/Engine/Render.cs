@@ -50,7 +50,7 @@ namespace MarketKing.Game
             await _uiDispatcher.InvokeAsync(() =>
                 {
                     bool isOdd = cell.CenterLocation.X % 2 == 0;
-                    var hexColor = Colors.White;
+                    var hexColor = Color.FromRgb(55, 55, 55);
                     if (isStartLocation)
                         hexColor = Colors.Red;
 
