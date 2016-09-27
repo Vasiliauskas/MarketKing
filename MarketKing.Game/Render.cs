@@ -42,14 +42,12 @@ namespace MarketKing.Game
         public void SetColor(Cell cell, Color color) => _hexagonLookup[cell].SetColor(color);
         public void ChangeResourceValue(Cell cell) => _hexagonLookup[cell].SetValue(cell.Resources);
 
-        private Task DrawHexagon(Cell cell, bool isStartLocation)
+        private async Task DrawHexagon(Cell cell, bool isStartLocation)
         {
-            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
-
             if (GameConfig.ThrottleRenderMiliseconds > 0)
                 Thread.Sleep(GameConfig.ThrottleRenderMiliseconds);
 
-            _uiDispatcher.InvokeAsync(() =>
+            await _uiDispatcher.InvokeAsync(() =>
                 {
                     bool isOdd = cell.CenterLocation.X % 2 == 0;
                     var hexColor = Colors.White;
@@ -68,10 +66,7 @@ namespace MarketKing.Game
                         _zoom.Zoom -= 0.01;
                         Thread.Sleep(1);
                     }
-
-                    tcs.SetResult(null);
                 });
-            return tcs.Task;
         }
     }
 }

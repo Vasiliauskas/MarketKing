@@ -27,7 +27,7 @@
 
         public async Task RunStartSequence()
         {
-            await Task.Run(async () => await _render.DrawBoardAsync(_board));
+            await _render.DrawBoardAsync(_board);
             SetupStartLocations();
             await RunGame();
         }
