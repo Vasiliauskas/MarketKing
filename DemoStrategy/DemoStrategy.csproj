@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="RandomStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WeakestLinkStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MarketKing\MarketKing.csproj">

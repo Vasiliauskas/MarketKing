@@ -1,8 +1,9 @@
-﻿using System.Windows.Media;
-
-namespace MarketKing.Game
+﻿namespace MarketKing.Game
 {
-    public class Player
+    using System;
+    using System.Windows.Media;
+
+    public class Player : IObservable<Player>
     {
         public string Name { get; private set; }
         public int Id { get; private set; }
@@ -19,6 +20,11 @@ namespace MarketKing.Game
         public override int GetHashCode()
         {
             return Id;
+        }
+
+        public IDisposable Subscribe(IObserver<Player> observer)
+        {
+            throw new NotImplementedException();
         }
     }
 }
