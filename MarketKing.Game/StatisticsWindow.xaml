@@ -4,10 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketKing.Game"
+        xmlns:controls="clr-namespace:MarketKing.Game.Controls"
         mc:Ignorable="d"
         WindowState="Maximized"
         WindowStyle="ToolWindow"
         Title="Statistics" Background="Black">
+    <Window.Resources>
+        <controls:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+    </Window.Resources>
     <Grid Grid.IsSharedSizeScope="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
@@ -39,7 +43,7 @@
                                     <ColumnDefinition Width="300" />
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="0" FontSize="24" Foreground="White"  Margin="0 0 10 0" Background="{Binding Color}"/>
+                                <Rectangle Grid.Column="0" Margin="20 3 20 3" Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                 <TextBlock Grid.Column="1" FontSize="24" Foreground="White"  Margin="0 0 30 0" Text="{Binding Name}"/>
                                 <TextBlock Grid.Column="2" FontSize="24" Foreground="White"  Margin="0 0 10 0" Text="{Binding Hexagons}"/>
                                 <TextBlock Grid.Column="3" FontSize="24" Foreground="White"  Margin="0 0 10 0" Text="{Binding Resources}"/>
