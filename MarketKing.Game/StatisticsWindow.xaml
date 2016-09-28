@@ -8,7 +8,7 @@
         WindowState="Maximized"
         WindowStyle="ToolWindow"
         Title="Statistics" Background="Black">
-    <Grid Grid.IsSharedSizeScope="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid Grid.IsSharedSizeScope="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition SharedSizeGroup="B"/>
@@ -20,32 +20,34 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="24" Foreground="White" Text="Color"/>
-        <TextBlock Grid.Column="1" FontWeight="Bold" FontSize="24" Foreground="White" Text="Player"/>
-        <TextBlock Grid.Column="2" FontWeight="Bold" FontSize="24" Foreground="White" Text="Hexagons"/>
-        <TextBlock Grid.Column="3" FontWeight="Bold" FontSize="24" Foreground="White" Text="Resources"/>
+        <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="32" Foreground="White" Text="Color"/>
+        <TextBlock Grid.Column="1" FontWeight="Bold" FontSize="32" Foreground="White" Text="Player"/>
+        <TextBlock Grid.Column="2" FontWeight="Bold" FontSize="32" Foreground="White" Text="Hexagons"/>
+        <TextBlock Grid.Column="3" FontWeight="Bold" FontSize="32" Foreground="White" Text="Resources"/>
 
 
-        <!--<ScrollViewer Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">-->
-        <ItemsControl Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="auto" SharedSizeGroup="B"/>
-                            <ColumnDefinition Width="200" />
-                            <ColumnDefinition Width="300" />
-                        </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0 3 0 0" BorderThickness="0 0 0 2" BorderBrush="#292929">
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*" SharedSizeGroup="B"/>
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="300" />
+                                </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="24" Foreground="White"  Margin="0 3 10 0" Background="{Binding Color}"/>
-                        <TextBlock Grid.Column="1" FontWeight="Bold" FontSize="24" Foreground="White"  Margin="0 3 10 0" Text="{Binding Name}"/>
-                        <TextBlock Grid.Column="2" FontWeight="Bold" FontSize="24" Foreground="White"  Margin="0 3 10 0" Text="{Binding Hexagons}"/>
-                        <TextBlock Grid.Column="3" FontWeight="Bold" FontSize="24" Foreground="White"  Margin="0 3 10 0" Text="{Binding Resources}"/>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <!--</ScrollViewer>-->
+                                <TextBlock Grid.Column="0" FontSize="24" Foreground="White"  Margin="0 0 10 0" Background="{Binding Color}"/>
+                                <TextBlock Grid.Column="1" FontSize="24" Foreground="White"  Margin="0 0 30 0" Text="{Binding Name}"/>
+                                <TextBlock Grid.Column="2" FontSize="24" Foreground="White"  Margin="0 0 10 0" Text="{Binding Hexagons}"/>
+                                <TextBlock Grid.Column="3" FontSize="24" Foreground="White"  Margin="0 0 10 0" Text="{Binding Resources}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </Window>

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace MarketKing.Game.DataModels
 {
-    public class ViewModelBase
+    public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -32,6 +32,7 @@ namespace MarketKing.Game
             _render = new Render(canvas, zoom, Dispatcher);
             _engine = new Engine(GetStrategies(10), _render, _stats);
             KeyDown += MainWindow_KeyDown;
+            Closing += GameWindow_Closing;
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -54,6 +55,8 @@ namespace MarketKing.Game
 
             e.Handled = true;
         }
+
+        private void GameWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) => Application.Current.Shutdown();
 
         private void ToggleFullscreen()
         {
