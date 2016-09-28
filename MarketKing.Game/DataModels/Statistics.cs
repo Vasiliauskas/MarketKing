@@ -106,5 +106,19 @@ namespace MarketKing.Game.DataModels
                 }
             }
         }
+
+        private int _BugCount;
+        public int BugCount
+        {
+            get { return _BugCount; }
+            set
+            {
+                if (_BugCount != value)
+                {
+                    _BugCount = value;
+                    OnPropertyChanged("BugCount");
+                }
+            }
+        }
     }
 }

@@ -19,6 +19,7 @@
                 <ColumnDefinition SharedSizeGroup="B"/>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -29,9 +30,10 @@
             <TextBlock Grid.Column="1" FontWeight="Bold" FontSize="32" Foreground="White" Text="Player"/>
             <TextBlock Grid.Column="2" FontWeight="Bold" FontSize="32" Foreground="White" Text="Hexagons"/>
             <TextBlock Grid.Column="3" FontWeight="Bold" FontSize="32" Foreground="White" Text="Resources"/>
+            <TextBlock Grid.Column="4" FontWeight="Bold" FontSize="32" Foreground="White" Text="Bugs"/>
 
 
-            <ScrollViewer Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer Grid.Row="1" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -42,14 +44,21 @@
                                         <ColumnDefinition Width="*" SharedSizeGroup="B"/>
                                         <ColumnDefinition Width="200" />
                                         <ColumnDefinition Width="300" />
+                                        <ColumnDefinition Width="100" />
                                     </Grid.ColumnDefinitions>
 
                                     <Rectangle Grid.Column="0" Margin="20 3 20 3" Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                     <TextBlock Grid.Column="1" FontSize="24" Foreground="White"  Margin="0 0 30 0" Text="{Binding Name}"/>
                                     <TextBlock Grid.Column="2" FontSize="24" Foreground="White"  Margin="0 0 10 0" Text="{Binding Hexagons}"/>
                                     <TextBlock Grid.Column="3" FontSize="24" Foreground="White"  Margin="0 0 10 0" Text="{Binding Resources}"/>
+                                    <TextBlock x:Name="bugsText" Grid.Column="4" FontSize="24" Foreground="Red"  Margin="0 0 10 0" Text="{Binding BugCount}"/>
                                 </Grid>
                             </Border>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding BugCount}" Value="0">
+                                    <Setter TargetName="bugsText" Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

@@ -60,44 +60,56 @@
             });
         }
 
-        private void TakeTurns()
+        private async void TakeTurns()
         {
             foreach (var player in _players.ToList())
             {
-                var playerCells = _board.Cells.Values.Where(c => c.OwnedById.HasValue && c.OwnedById.Value.Equals(player.Key.Id))
-                    .Select(c => ToMyCell(c));
-                if (!playerCells.Any())
+                try
                 {
-                    _players.Remove(player.Key);
-                    _playerStats.RemoveAt(player.Key.Id);
-                    continue;
+                    await Task.Run(() => TakeTurn(player));
                 }
-                UpdateStats(player.Key, playerCells);
-
-                // maybe async and then timeout if no response after 500 ms
-                var transaction = player.Value.Turn(playerCells.ToArray());
-
-                var targetCell = transaction.TargetBlock != null ? _board.Cells[transaction.TargetBlock.CenterLocation] : null;
-                var sourceCell = transaction.MyBlock != null ? _board.Cells[transaction.MyBlock.CenterLocation] : null;
-                if (sourceCell != null && targetCell != null)
+                catch
                 {
-                    var resourceToTransfer =
-                        sourceCell.Resources >= transaction.AmmountToTransfer ?
-                        transaction.AmmountToTransfer : sourceCell.Resources;
+                    ReportPlayerBug(player.Key);
+                }
+            }
+        }
 
-                    SetCellResource(sourceCell, sourceCell.Resources -= resourceToTransfer);
+        private void TakeTurn(KeyValuePair<Player, IStrategy> player)
+        {
+            var playerCells = _board.Cells.Values.Where(c => c.OwnedById.HasValue && c.OwnedById.Value.Equals(player.Key.Id))
+                            .Select(c => ToMyCell(c));
+            if (!playerCells.Any())
+            {
+                _players.Remove(player.Key);
+                _playerStats.RemoveAt(player.Key.Id);
+                return;
+            }
+            UpdateStats(player.Key, playerCells);
 
-                    if (resourceToTransfer >= targetCell.Resources
-                        && ((targetCell.OwnedById.HasValue
-                        && targetCell.OwnedById.Value != player.Key.Id) || !targetCell.OwnedById.HasValue))
-                    {
-                        AssignCellToPlayer(targetCell, player.Key);
-                        SetCellResource(targetCell, resourceToTransfer - targetCell.Resources);
-                    }
-                    else
-                    {
-                        SetCellResource(targetCell, targetCell.Resources += resourceToTransfer);
-                    }
+            // maybe async and then timeout if no response after 500 ms
+            var transaction = player.Value.Turn(playerCells.ToArray());
+
+            var targetCell = transaction.TargetBlock != null ? _board.Cells[transaction.TargetBlock.CenterLocation] : null;
+            var sourceCell = transaction.MyBlock != null ? _board.Cells[transaction.MyBlock.CenterLocation] : null;
+            if (sourceCell != null && targetCell != null)
+            {
+                var resourceToTransfer =
+                    sourceCell.Resources >= transaction.AmmountToTransfer ?
+                    transaction.AmmountToTransfer : sourceCell.Resources;
+
+                SetCellResource(sourceCell, sourceCell.Resources -= resourceToTransfer);
+
+                if (resourceToTransfer >= targetCell.Resources
+                    && ((targetCell.OwnedById.HasValue
+                    && targetCell.OwnedById.Value != player.Key.Id) || !targetCell.OwnedById.HasValue))
+                {
+                    AssignCellToPlayer(targetCell, player.Key);
+                    SetCellResource(targetCell, resourceToTransfer - targetCell.Resources);
+                }
+                else
+                {
+                    SetCellResource(targetCell, targetCell.Resources += resourceToTransfer);
                 }
             }
         }
@@ -106,6 +118,11 @@
         {
             _playerStats[player.Id].Hexagons = cells.Count();
             _playerStats[player.Id].Resources = cells.Sum(c => c.Resources);
+        }
+
+        private void ReportPlayerBug(Player player)
+        {
+            _playerStats[player.Id].BugCount++;
         }
 
         private void IncrementResources()
