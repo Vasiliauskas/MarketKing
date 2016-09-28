@@ -5,11 +5,25 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace MarketKing.Game.DataModels
 {
     public class Statistics : ObservableCollection<PlayerStatistics>
     {
+        private readonly Dispatcher _uiDispatcher;
+        public Statistics(Dispatcher disapatcher)
+        {
+            _uiDispatcher = disapatcher;
+        }
+
+
+        new public void Add(PlayerStatistics player)
+        {
+            _uiDispatcher.Invoke(() => base.Add(player));
+        }
+
         new public PlayerStatistics this[int playerId]
         {
             get
@@ -20,7 +34,7 @@ namespace MarketKing.Game.DataModels
 
         new public void RemoveAt(int playerId)
         {
-            Remove(this[playerId]);
+            _uiDispatcher.Invoke(() => Remove(this[playerId]));
         }
     }
 
@@ -75,6 +89,20 @@ namespace MarketKing.Game.DataModels
                 {
                     _Resources = value;
                     OnPropertyChanged();
+                }
+            }
+        }
+
+        private Color _Color;
+        public Color Color
+        {
+            get { return _Color; }
+            set
+            {
+                if (_Color != value)
+                {
+                    _Color = value;
+                    OnPropertyChanged("Color");
                 }
             }
         }

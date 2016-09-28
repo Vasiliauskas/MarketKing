@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:MarketKing.Game"
         mc:Ignorable="d"
         WindowState="Maximized"
-        WindowStyle="None"
-        AllowsTransparency="True"
+        WindowStyle="ToolWindow"
         Title="MainWindow" Background="Black">
     <Window.Resources>
         <Style TargetType="{x:Type local:ZoomScrollViewer}" >
@@ -38,7 +37,14 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <local:ZoomScrollViewer x:Name="zoom" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" MaxZoom="1" MinZoom="0.2" Padding="50">
-        <Canvas x:Name="canvas"/>
-    </local:ZoomScrollViewer>
+    <Grid>
+        <local:ZoomScrollViewer x:Name="zoom" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" MaxZoom="1" MinZoom="0.2" Padding="50">
+            <Canvas x:Name="canvas"/>
+        </local:ZoomScrollViewer>
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40">
+            <TextBlock Foreground="White" FontSize="26" Text="F5 - Start game"/>
+            <TextBlock Foreground="White" FontSize="26" Text="F11 - Toggle fullscreen"/>
+        </StackPanel>
+    </Grid>
+
 </Window>

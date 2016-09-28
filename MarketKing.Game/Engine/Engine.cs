@@ -13,19 +13,19 @@
         private readonly Render _render;
         private readonly Board _board;
         private readonly Statistics _playerStats;
-        public Engine(IStrategy[] strategies, Render render)
+        public Engine(IStrategy[] strategies, Render render, Statistics statsModel)
         {
             _players = new Dictionary<Player, IStrategy>();
             _render = render;
             _board = new Board(strategies.Length);
-            _playerStats = new Statistics();
+            _playerStats = statsModel;
 
             for (int i = 0; i < strategies.Length; i++)
             {
                 var uniqueColor = (Color)ColorConverter.ConvertFromString(UniqueColorProvider.GetUniqueColor(i));
                 var player = new Player(strategies[i], i, uniqueColor);
                 _players.Add(player, strategies[i]);
-                _playerStats.Add(new PlayerStatistics(i) { Hexagons = 1, Resources = GameConfig.StartingResource });
+                _playerStats.Add(new PlayerStatistics(i) { Hexagons = 1, Resources = GameConfig.StartingResource, Color = uniqueColor });
             }
         }
 
