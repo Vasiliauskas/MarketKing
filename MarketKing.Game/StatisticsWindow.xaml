@@ -12,8 +12,8 @@
     <Window.Resources>
         <controls:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
     </Window.Resources>
-    <Grid Margin="50">
-        <Grid Grid.IsSharedSizeScope="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid >
+        <Grid Margin="50" Grid.IsSharedSizeScope="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition SharedSizeGroup="B"/>
@@ -57,6 +57,6 @@
 
         </Grid>
 
-        <Image Source="Images\hexes.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Opacity="0.7"/>
+        <Image Source="Images\hexes.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
     </Grid>
 </Window>
