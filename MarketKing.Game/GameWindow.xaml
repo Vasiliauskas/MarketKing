@@ -38,6 +38,8 @@
         </Style>
     </Window.Resources>
     <Grid>
+        <Image Source="Images\main.png" Opacity="0.7" Stretch="UniformToFill"/>
+
         <local:ZoomScrollViewer x:Name="zoom" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" MaxZoom="1" MinZoom="0.2" Padding="50">
             <Canvas x:Name="canvas"/>
         </local:ZoomScrollViewer>

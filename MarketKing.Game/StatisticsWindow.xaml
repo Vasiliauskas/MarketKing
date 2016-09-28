@@ -12,7 +12,7 @@
     <Window.Resources>
         <controls:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
     </Window.Resources>
-    <Grid>
+    <Grid Margin="50">
         <Grid Grid.IsSharedSizeScope="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
