@@ -12,46 +12,51 @@
     <Window.Resources>
         <controls:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
     </Window.Resources>
-    <Grid Grid.IsSharedSizeScope="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition SharedSizeGroup="B"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="300"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <Grid>
+        <Grid Grid.IsSharedSizeScope="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition SharedSizeGroup="B"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="32" Foreground="White" Text="Color"/>
-        <TextBlock Grid.Column="1" FontWeight="Bold" FontSize="32" Foreground="White" Text="Player"/>
-        <TextBlock Grid.Column="2" FontWeight="Bold" FontSize="32" Foreground="White" Text="Hexagons"/>
-        <TextBlock Grid.Column="3" FontWeight="Bold" FontSize="32" Foreground="White" Text="Resources"/>
+            <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="32" Foreground="White" Text="Color"/>
+            <TextBlock Grid.Column="1" FontWeight="Bold" FontSize="32" Foreground="White" Text="Player"/>
+            <TextBlock Grid.Column="2" FontWeight="Bold" FontSize="32" Foreground="White" Text="Hexagons"/>
+            <TextBlock Grid.Column="3" FontWeight="Bold" FontSize="32" Foreground="White" Text="Resources"/>
 
 
-        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Margin="0 3 0 0" BorderThickness="0 0 0 2" BorderBrush="#292929">
-                            <Grid >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition Width="*" SharedSizeGroup="B"/>
-                                    <ColumnDefinition Width="200" />
-                                    <ColumnDefinition Width="300" />
-                                </Grid.ColumnDefinitions>
+            <ScrollViewer Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0 3 0 0" BorderThickness="0 0 0 2" BorderBrush="#292929">
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*" SharedSizeGroup="B"/>
+                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="300" />
+                                    </Grid.ColumnDefinitions>
 
-                                <Rectangle Grid.Column="0" Margin="20 3 20 3" Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                <TextBlock Grid.Column="1" FontSize="24" Foreground="White"  Margin="0 0 30 0" Text="{Binding Name}"/>
-                                <TextBlock Grid.Column="2" FontSize="24" Foreground="White"  Margin="0 0 10 0" Text="{Binding Hexagons}"/>
-                                <TextBlock Grid.Column="3" FontSize="24" Foreground="White"  Margin="0 0 10 0" Text="{Binding Resources}"/>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+                                    <Rectangle Grid.Column="0" Margin="20 3 20 3" Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                    <TextBlock Grid.Column="1" FontSize="24" Foreground="White"  Margin="0 0 30 0" Text="{Binding Name}"/>
+                                    <TextBlock Grid.Column="2" FontSize="24" Foreground="White"  Margin="0 0 10 0" Text="{Binding Hexagons}"/>
+                                    <TextBlock Grid.Column="3" FontSize="24" Foreground="White"  Margin="0 0 10 0" Text="{Binding Resources}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+        </Grid>
+
+        <Image Source="Images\hexes.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Opacity="0.7"/>
     </Grid>
 </Window>
