@@ -20,12 +20,12 @@ namespace MarketKing.Game
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class GameWindow : Window
     {
         private readonly Engine _engine;
         private readonly Render _render;
         private readonly Statistics _stats;
-        public MainWindow()
+        public GameWindow()
         {
             InitializeComponent();
             _stats = new Statistics(Dispatcher);
@@ -39,31 +39,20 @@ namespace MarketKing.Game
             switch (e.Key)
             {
                 case Key.F1:
-                    break;
-                case Key.F2:
-                    break;
-                case Key.F3:
+                    ShowStatistics();
                     break;
                 case Key.F4:
+                    Application.Current.Shutdown();
                     break;
                 case Key.F5:
                     StartGame();
-                    break;
-                case Key.F6:
-                    break;
-                case Key.F7:
-                    break;
-                case Key.F8:
-                    break;
-                case Key.F9:
-                    break;
-                case Key.F10:
                     break;
                 case Key.F11:
                     ToggleFullscreen();
                     break;
             }
-            
+
+            e.Handled = true;
         }
 
         private void ToggleFullscreen()
@@ -78,6 +67,13 @@ namespace MarketKing.Game
                 WindowState = WindowState.Normal;
                 ResizeMode = ResizeMode.CanResize;
             }
+        }
+
+        private void ShowStatistics()
+        {
+            var statsWindow = new StatisticsWindow();
+            statsWindow.DataContext = _stats;
+            statsWindow.Show();
         }
 
         private bool _gameRunning;

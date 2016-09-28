@@ -25,7 +25,7 @@
                 var uniqueColor = (Color)ColorConverter.ConvertFromString(UniqueColorProvider.GetUniqueColor(i));
                 var player = new Player(strategies[i], i, uniqueColor);
                 _players.Add(player, strategies[i]);
-                _playerStats.Add(new PlayerStatistics(i) { Hexagons = 1, Resources = GameConfig.StartingResource, Color = uniqueColor });
+                _playerStats.Add(new PlayerStatistics(i) { Name = player.Name, Hexagons = 1, Resources = GameConfig.StartingResource, Color = uniqueColor });
             }
         }
 

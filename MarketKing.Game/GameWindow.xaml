@@ -1,4 +1,4 @@
-﻿<Window x:Class="MarketKing.Game.MainWindow"
+﻿<Window x:Class="MarketKing.Game.GameWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -42,8 +42,10 @@
             <Canvas x:Name="canvas"/>
         </local:ZoomScrollViewer>
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40">
-            <TextBlock Foreground="White" FontSize="26" Text="F5 - Start game"/>
-            <TextBlock Foreground="White" FontSize="26" Text="F11 - Toggle fullscreen"/>
+            <TextBlock Foreground="White" FontSize="18" Text="F1 - Statistics"/>
+            <TextBlock Foreground="White" FontSize="18" Text="F4 - Quit"/>
+            <TextBlock Foreground="White" FontSize="18" Text="F5 - Start game"/>
+            <TextBlock Foreground="White" FontSize="18" Text="F11 - Toggle fullscreen"/>
         </StackPanel>
     </Grid>
 

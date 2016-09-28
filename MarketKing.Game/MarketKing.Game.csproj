@@ -63,7 +63,10 @@
     <Compile Include="Engine\Render.cs" />
     <Compile Include="Controls\ZoomScrollViewer.cs" />
     <Compile Include="Engine\UniqueColorProvider.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="StatisticsWindow.xaml.cs">
+      <DependentUpon>StatisticsWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -74,10 +77,14 @@
     <Compile Include="DataModels\Board.cs" />
     <Compile Include="DataModels\CellCollection.cs" />
     <Compile Include="Engine\Engine.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="GameWindow.xaml.cs">
+      <DependentUpon>GameWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="StatisticsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
